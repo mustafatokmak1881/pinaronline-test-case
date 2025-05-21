@@ -4,15 +4,22 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 // Variables
 const PORT = process.env.PORT || 3000;
 const app = express();
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // 100 request limit for per 15 minutes
-    message: "Too many requests from this IP, please try again after 15 minutes"
-});
+const apiRouter = express.Router();
+
+// Rate Limit Definitions
+const { rateLimitSettings } = require('./src/config/settings')
+const limiter = rateLimit(rateLimitSettings);
+
+// Swagger Definitions
+const { swaggerSettings } = require('./src/config/settings')
+const specs = swaggerJsdoc(swaggerSettings);
+
 
 // Middlware Files
 const loggerMiddleware = require('./src/middlewares/logger.middleware');
@@ -25,14 +32,13 @@ app.use(express.json());
 app.use(loggerMiddleware); // No need to this, but probably we will need after.
 
 // Route Files
-const homeRoutes = require('./src/routes/home.routes');
-const authRoutes = require('./src/routes/auth.routes');
+const userRoutes = require('./src/routes/user.routes');
 const errorRoutes = require('./src/routes/error.routes');
 
 // Routes
-app.use('/', homeRoutes);
-app.use('/auth', authRoutes);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api', apiRouter); // Prefix for /api routes
+apiRouter.use('/users', userRoutes); // Routes for users
 
 // Errors
 app.use(errorRoutes);

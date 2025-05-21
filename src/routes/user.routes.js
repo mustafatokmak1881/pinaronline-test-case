@@ -1,0 +1,96 @@
+// Node Modules
+const { Router } = require('express');
+const jwt = require('jsonwebtoken');
+
+// Variables
+const router = Router();
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: Kullanıcı kayıt ve doğrulama işlemleri
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     RegisterInput:
+ *       type: object
+ *       required:
+ *         - username
+ *         - email
+ *         - password
+ *       properties:
+ *         username:
+ *           type: string
+ *           minLength: 3
+ *           example: kullanici123
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: ornek@mail.com
+ *         password:
+ *           type: string
+ *           minLength: 6
+ *           example: Sifre123!
+ *       example:
+ *         username: kullanici123
+ *         email: ornek@mail.com
+ *         password: Sifre123!
+ * 
+ *     RegisterResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         username:
+ *           type: string
+ *           example: kullanici123
+ *         email:
+ *           type: string
+ *           example: ornek@mail.com
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2023-05-20T14:30:00Z"
+ */
+
+/**
+ * @swagger
+ * /users/register:
+ *   post:
+ *     summary: Yeni kullanıcı kaydı
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterInput'
+ *     responses:
+ *       201:
+ *         description: Kullanıcı başarıyla kaydedildi
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RegisterResponse'
+ *       400:
+ *         description: Geçersiz giriş bilgileri
+ *       409:
+ *         description: Kullanıcı zaten mevcut
+ */
+router.post('/register', (req, res) => {
+    const { username, email, password } = req.body;
+
+    res.status(200).json({ username, email, password })
+});
+
+router.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    res.status(200).json({ status: "OK", message: "Access granted" })
+});;
+
+module.exports = router;
