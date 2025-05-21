@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # PostgreSQL
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres_network
+    restart: unless-stopped
+
+  # pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: 123@example.com123
+    ports:
+      - "5050:80"
+    networks:
+      - postgres_network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  odul-yonetim-uygulamasi:
+    build:
+      context: .  
+      dockerfile: Dockerfile 
+    container_name: odul-yonetim-servisi
+    ports:
+      - "8080:3000"
+    networks:
+      - postgres_network
+    depends_on:
+      - postgres 
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres  
+      DB_PORT: 5432
+      DB_USERNAME: admin
+      DB_PASSWORD: admin123
+      DB_DATABASE: mydb
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_network:
+    driver: bridge
