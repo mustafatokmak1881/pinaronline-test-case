@@ -46,7 +46,7 @@ class UserService {
 
         const secretKey = process.env.SECRET_KEY;
 
-        const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' })
+        const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1d' })
 
         return { user, token }; // Validation başarılı ise user objesini döndür
     }

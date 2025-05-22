@@ -3,9 +3,9 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-      return knex.schema.createTable('user-points', (table) => {
+      return knex.schema.createTable('points', (table) => {
         table.specificType('id', 'serial primary key')
-        table.string('userId').notNullable();
+        table.string('user_id').notNullable();
         table.string('type').notNullable();
         table.integer('amount').notNullable();
         table.string('description');
@@ -18,5 +18,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTable('user-points');
+    return knex.schema.dropTable('points');
 };

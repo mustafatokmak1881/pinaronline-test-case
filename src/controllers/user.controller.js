@@ -48,13 +48,13 @@ class UserController {
             const { username, password } = req.body;
             const result = await userService.validateUser(username, password);
 
-            res.json({
+            return res.json({
                 status: 'success',
                 message: "Access granted",
                 token: result.token
             });
         } catch (error) {
-            res.status(401).json({
+            return res.status(401).json({
                 status: 'fail',
                 message: error.message
             });

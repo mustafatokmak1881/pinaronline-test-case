@@ -33,12 +33,15 @@ app.use(loggerMiddleware); // No need to this, but probably we will need after.
 
 // Route Files
 const userRoutes = require('./src/routes/user.routes');
+const pointsRoutes = require('./src/routes/points.routes');
 const errorRoutes = require('./src/routes/error.routes');
 
 // Routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/api', apiRouter); // Prefix for /api routes
 apiRouter.use('/users', userRoutes); // Routes for users
+apiRouter.use('/points', pointsRoutes); // Routes for points
+
 
 // Errors
 app.use(errorRoutes);
