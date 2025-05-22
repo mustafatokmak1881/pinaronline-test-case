@@ -1,5 +1,4 @@
-const userService = require('../services/user.service')
-const { hashCompare } = require('../helper/hash')
+const userService = require('../services/user.service');
 
 class UserController {
     async create(req, res) {
@@ -47,10 +46,18 @@ class UserController {
     async login(req, res) {
         try {
             const { username, password } = req.body;
-            const user = await userService.validateUser(username, password);
-            res.json({ success: true, user });
+            const result = await userService.validateUser(username, password);
+
+            res.json({
+                status: 'success',
+                message: "Access granted",
+                token: result.token
+            });
         } catch (error) {
-            res.status(401).json({ success: false, message: error.message });
+            res.status(401).json({
+                status: 'fail',
+                message: error.message
+            });
         }
     }
 }

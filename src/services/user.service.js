@@ -1,7 +1,7 @@
+const jwt = require('jsonwebtoken');
 
 const userRepository = require('../repositories/user.repository');
-
-const helper = require('../helper/hash')
+const helper = require('../helper/hash');
 
 class UserService {
     async getAllUsers() {
@@ -44,7 +44,11 @@ class UserService {
             throw new Error('Invalid password');
         }
 
-        return user; // Validation başarılı ise user objesini döndür
+        const secretKey = process.env.SECRET_KEY;
+
+        const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' })
+
+        return { user, token }; // Validation başarılı ise user objesini döndür
     }
 }
 

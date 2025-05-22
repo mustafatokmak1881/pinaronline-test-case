@@ -1,6 +1,5 @@
 // Node Modules
 const { Router } = require('express');
-const jwt = require('jsonwebtoken');
 
 // Variables
 const router = Router();
@@ -87,9 +86,5 @@ router.post('/register', userController.create);
 router.post('/login', userController.login)
 router.post('/delete', userController.delete); // This is for only testing. I know this is no at given task.
 
-// router.post('/login', (req, res) => {
-//     const { username, password } = req.body;
-//     res.status(200).json({ status: "OK", message: "Access granted" })
-// });
 
 module.exports = router;
