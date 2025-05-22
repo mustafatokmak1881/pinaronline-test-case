@@ -50,6 +50,13 @@ class UserService {
 
         return { user, token }; // Validation başarılı ise user objesini döndür
     }
+
+    async profilePage(token){
+        const user = jwt.decode(token);
+        const result = await userRepository.findById(user.userId)
+
+        return result;
+    }
 }
 
 module.exports = new UserService();

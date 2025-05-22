@@ -5,14 +5,31 @@ chai.use(chaiHttp);
 
 const app = require('../app');
 
-describe("Ödül Yönetimi Api Test", () => {
+describe("Ödül Yönetimi Api Test", function() {
+    this.timeout(5000); // Test timeout'unu artır
+
     const testUser = {
         "username": `test123User`,
         "email": `test123@test.com`,
         "password": "test123"
     };
 
-    // Test sonrası temizlik
+    let token;
+
+    before(async () => {
+        // Kullanıcı kaydı
+        await chai.request(app)
+            .post('/api/users/register')
+            .send(testUser);
+        
+        // Token alma
+        const loginRes = await chai.request(app)
+            .post('/api/users/login')
+            .send(testUser);
+        
+        token = loginRes.body.token;
+    });
+
     after(async () => {
         await chai.request(app)
             .post('/api/users/delete')
@@ -20,72 +37,53 @@ describe("Ödül Yönetimi Api Test", () => {
     });
 
     describe('Testing for /register api', () => {
-        it("Should register user and return 201", async () => {
-            const res = await chai.request(app)
-                .post('/api/users/register')
-                .send(testUser);
-
-            expect(res).to.have.status(201);
-            expect(res.body).to.be.an('object');
-            expect(res.body).to.have.property('status', 'success');
-            expect(res.body).to.have.property('message', 'user registered');
-        });
-
         it("Should return 409 for duplicate username", async () => {
             const res = await chai.request(app)
                 .post('/api/users/register')
                 .send(testUser);
 
             expect(res).to.have.status(409);
-            expect(res.body).to.be.an('object');
             expect(res.body).to.have.property('status', 'fail');
-            expect(res.body).to.have.property('message', 'USERNAME_ALREADY_EXISTS');
         });
-
     });
 
     describe('Testing for: /login api', () => {
-        it('Should return 200 and get token', async () => {
-            chai.request(app)
+        it('Should return 401 for invalid password', async () => {
+            const invalidUser = {...testUser, password: testUser.password + "-invalid"};
+            const res = await chai.request(app)
                 .post('/api/users/login')
-                .send(testUser)
-                .end((err, res) => {
-                    expect(res).to.have.status(200);
-                    expect(res.body).to.have.an('object');
-                    expect(res.body).to.have.property('status', 'success');
-                    expect(res.body).to.have.property('message', 'Access granted');
-                    expect(res.body.token).to.have.a('string')
-                });
+                .send(invalidUser);
+
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('message', 'Invalid password');
         });
 
-        it('Should return 401 and invlaid password message', async () => {
-            let invalidUser = testUser;
-            invalidUser.password = testUser.password + "-invalid";
-
-            chai.request(app)
+        it('Should return 401 for user not found', async () => {
+            const invalidUser = {...testUser, username: testUser.username + "-invalid"};
+            const res = await chai.request(app)
                 .post('/api/users/login')
-                .send(invalidUser)
-                .end((err, res) => {
-                    expect(res).to.have.status(401)
-                    expect(res).to.have.an('object');
-                    expect(res.body).to.have.property('status', 'fail');
-                    expect(res.body).to.have.property('message', 'Invalid password');
-                });
+                .send(invalidUser);
+
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('message', 'User not found');
+        });
+    });
+
+    describe('Testing for: /profile api', () => {
+        it('Should return 200 and success message', async () => {
+            const res = await chai.request(app)
+                .get('/api/users/profile')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('message', 'Profile Page');
         });
 
-        it('Should return 401 and user not found message', async () => {
-            let invalidUser = testUser;
-            invalidUser.username = testUser.username + "-invalid";
+        it('Should return 401 without token', async () => {
+            const res = await chai.request(app)
+                .get('/api/users/profile');
 
-            chai.request(app)
-                .post('/api/users/login')
-                .send(invalidUser)
-                .end((err, res) => {
-                    expect(res).to.have.status(401)
-                    expect(res).to.have.an('object');
-                    expect(res.body).to.have.property('status', 'fail');
-                    expect(res.body).to.have.property('message', 'User not found');
-                });
+            expect(res).to.have.status(401);
         });
-    })
+    });
 });

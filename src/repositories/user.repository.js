@@ -38,6 +38,11 @@ class UserRepository {
         return result.rows[0];
     }
 
+    async findById(id) {
+        const result = await this.pool.query(`SELECT id, username, email FROM ${this.tableName} WHERE id = $1`, [id]);
+        return result.rows[0];
+    }
+
     // I know this has not been in the task but we need to this after.
     async findByEmail(email) {
         const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE email = $1`, [email]);

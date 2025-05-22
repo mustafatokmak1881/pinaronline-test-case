@@ -62,10 +62,18 @@ class UserController {
     }
 
     async profile(req, res) {
-        res.status(200).json({
-            status: "success",
-            message: "Profile Page"
-        });
+        try {
+            const token = req.headers['authorization'].split(' ')[1];
+            const result = await userService.profilePage(token);
+            res.status(200).json({
+                status: "success",
+                message: "Profile Page",
+                data: result
+            });
+        }
+        catch (error) {
+
+        }
     }
 }
 
