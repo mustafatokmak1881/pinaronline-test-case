@@ -55,7 +55,6 @@ describe("Ödül Yönetimi Api Test", () => {
                     expect(res.body).to.have.property('status', 'success');
                     expect(res.body).to.have.property('message', 'Access granted');
                     expect(res.body.token).to.have.a('string')
-
                 });
         });
 

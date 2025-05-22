@@ -60,6 +60,13 @@ class UserController {
             });
         }
     }
+
+    async profile(req, res) {
+        res.status(200).json({
+            status: "success",
+            message: "Profile Page"
+        });
+    }
 }
 
 module.exports = new UserController();

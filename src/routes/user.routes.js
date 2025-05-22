@@ -5,6 +5,9 @@ const { Router } = require('express');
 const router = Router();
 const userController = require('../controllers/user.controller')
 
+// Middleware
+const isAuthenticated = require('../middlewares/auth.middlware');
+
 /**
  * @swagger
  * tags:
@@ -153,6 +156,7 @@ router.post('/register', userController.create);
  *                   example: Invalid username or password
  */
 router.post('/login', userController.login)
+router.get('/profile', isAuthenticated,  userController.profile)
 router.post('/delete', userController.delete); // This is for only testing. I know this is no at given task.
 
 
