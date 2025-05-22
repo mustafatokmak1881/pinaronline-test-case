@@ -4,12 +4,13 @@ const jwt = require('jsonwebtoken');
 
 // Variables
 const router = Router();
+const userController = require('../controllers/user.controller')
 
 /**
  * @swagger
  * tags:
  *   name: Users
- *   description: Kullanıcı kayıt ve doğrulama işlemleri
+ *   description: Kullanıcı kayıt, kimlik doğrulama işlemleri
  */
 
 /**
@@ -82,15 +83,11 @@ const router = Router();
  *       409:
  *         description: Kullanıcı zaten mevcut
  */
-router.post('/register', (req, res) => {
-    const { username, email, password } = req.body;
+router.post('/register', userController.create);
 
-    res.status(200).json({ username, email, password })
-});
-
-router.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    res.status(200).json({ status: "OK", message: "Access granted" })
-});;
+// router.post('/login', (req, res) => {
+//     const { username, password } = req.body;
+//     res.status(200).json({ status: "OK", message: "Access granted" })
+// });
 
 module.exports = router;
