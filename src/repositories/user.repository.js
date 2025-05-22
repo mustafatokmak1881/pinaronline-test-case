@@ -1,4 +1,5 @@
 const pool = require('../config/database');
+const helper = require('../helper/hash');
 
 class UserRepository {
     constructor() {
@@ -7,9 +8,10 @@ class UserRepository {
     }
 
     async create({ username, email, password }) {
+        const hashedPassword = await helper.create(password)
         const result = await this.pool.query(
             `INSERT INTO ${this.tableName}(username, email, password) VALUES($1, $2, $3) RETURNING *`,
-            [username, email, password]
+            [username, email, hashedPassword]
         );
         return result.rows[0];
     }

@@ -6,14 +6,19 @@ class UserService {
         return await userRepository.findAll();
     }
     async createUser(userData) {
-        const existingUser = await userRepository.findByUsername(userData.username);
+        if (userData.password.length < 6) {
+            throw new Error("PASSWORD_TOO_SHORT");
+        }
+        const existingUserName = await userRepository.findByUsername(userData.username);
 
-        if (existingUser) {
+        if (existingUserName) {
             throw new Error("USERNAME_ALREADY_EXISTS");
         }
 
-        if (userData.password.length < 6) {
-            throw new Error("PASSWORD_TOO_SHORT");
+        const existingEmail = await userRepository.findByEmail(userData.email);
+
+        if(existingEmail) {
+            throw new Error('EMAIL_ALREADY_EXISTS')
         }
 
         return await userRepository.create(userData)
