@@ -16,6 +16,18 @@ class UserRepository {
         return result.rows[0];
     }
 
+    // I know this has not got in task but i need to this for testing.
+    async deleteByUsername(username) {
+        const result = await this.pool.query(`DELETE FROM ${this.tableName} WHERE username = $1`, [username]);
+        return result;
+    }
+
+    // I know this has not got in task but we need to this after.
+    // async deleteByEmail(email) {
+    //     const result = await this.pool.query(`DELETE FROM ${this.tableName} WHERE email = $1`, [email]);
+    //     return result;
+    // }
+
     async findAll() {
         const result = await this.pool.query(`SELECT * FROM ${this.tableName}`);
         return result.rows;

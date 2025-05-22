@@ -17,11 +17,15 @@ class UserService {
 
         const existingEmail = await userRepository.findByEmail(userData.email);
 
-        if(existingEmail) {
+        if (existingEmail) {
             throw new Error('EMAIL_ALREADY_EXISTS')
         }
 
         return await userRepository.create(userData)
+    }
+
+    async deleteUser(username) {
+        return await userRepository.deleteByUsername(username);
     }
 }
 
