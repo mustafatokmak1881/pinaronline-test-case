@@ -1,6 +1,8 @@
 
 const userRepository = require('../repositories/user.repository');
 
+const helper = require('../helper/hash')
+
 class UserService {
     async getAllUsers() {
         return await userRepository.findAll();
@@ -26,6 +28,23 @@ class UserService {
 
     async deleteUser(username) {
         return await userRepository.deleteByUsername(username);
+    }
+
+    async validateUser(username, password) {
+        const user = await userRepository.findByUsername(username);
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // BCrypt ile şifreyi karşılaştır
+        const isPasswordValid = await helper.hashCompare(password, user.password);
+
+        if (!isPasswordValid) {
+            throw new Error('Invalid password');
+        }
+
+        return user; // Validation başarılı ise user objesini döndür
     }
 }
 

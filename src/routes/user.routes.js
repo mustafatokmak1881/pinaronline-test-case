@@ -84,7 +84,8 @@ const userController = require('../controllers/user.controller')
  *         description: Kullanıcı zaten mevcut
  */
 router.post('/register', userController.create);
-router.post('/delete', userController.delete)
+router.post('/login', userController.login)
+router.post('/delete', userController.delete); // This is for only testing. I know this is no at given task.
 
 // router.post('/login', (req, res) => {
 //     const { username, password } = req.body;

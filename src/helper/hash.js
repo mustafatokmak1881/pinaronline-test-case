@@ -2,18 +2,19 @@ const bcrypt = require('bcrypt');
 
 class PasswordHasher {
     constructor() {
-        this.saltOrRounds = 10;
-        this.password = process.env.BCRYPT_PASSWORD;
-    }
-    async create() {
-        return await bcrypt.hash(this.password, this.saltOrRounds);
+        this.saltRounds = 10;
     }
 
-    async compare(password, hash) {
-        return await bcrypt.compare(password, hash)
+    async hashCreate(password) {
+        return await bcrypt.hash(password, this.saltRounds);
+    }
+
+    async hashCompare(plainTextPassword, hashedPassword) {
+        if (!plainTextPassword || !hashedPassword) {
+            throw new Error("Password and hash cannot be empty!");
+        }
+        return await bcrypt.compare(plainTextPassword, hashedPassword);
     }
 }
 
-module.exports = new PasswordHasher;
-
-
+module.exports = new PasswordHasher();

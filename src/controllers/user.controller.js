@@ -1,4 +1,5 @@
 const userService = require('../services/user.service')
+const { hashCompare } = require('../helper/hash')
 
 class UserController {
     async create(req, res) {
@@ -40,6 +41,16 @@ class UserController {
                 message: 'user cannot delete',
                 data: { error: error.message }
             });
+        }
+    }
+
+    async login(req, res) {
+        try {
+            const { username, password } = req.body;
+            const user = await userService.validateUser(username, password);
+            res.json({ success: true, user });
+        } catch (error) {
+            res.status(401).json({ success: false, message: error.message });
         }
     }
 }
