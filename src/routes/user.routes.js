@@ -100,7 +100,7 @@ const isAuthenticated = require('../middlewares/auth.middlware');
  * /users/register:
  *   post:
  *     summary: Yeni kullanıcı kaydı
- *     tags: [Authentication]
+ *     tags: [Kayıt İşlemleri]
  *     requestBody:
  *       required: true
  *       content:
@@ -127,7 +127,7 @@ router.post('/register', userController.create);
  * /users/login:
  *   post:
  *     summary: Kullanıcı girişi ve JWT token alımı
- *     tags: [Users]
+ *     tags: [Kullanıcılar]
  *     requestBody:
  *       required: true
  *       content:

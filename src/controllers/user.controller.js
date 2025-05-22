@@ -62,8 +62,17 @@ class UserController {
     }
 
     async profile(req, res) {
+        const token = req.headers['authorization'].split(' ')[1];
+
+        if (!token) {
+            return res.status(401).json({
+                status: "fail",
+                message: "Token not found"
+            });
+        }
+
         try {
-            const token = req.headers['authorization'].split(' ')[1];
+
             const result = await userService.profilePage(token);
             res.status(200).json({
                 status: "success",
