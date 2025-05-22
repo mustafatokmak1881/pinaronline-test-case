@@ -6,7 +6,13 @@ class UserController {
             const user = await userService.createUser(req.body);
             res.status(201).json(user);
         } catch (error) {
-            res.status(400).json({ error: error.message })
+            switch (error.message) {
+                case 'USERNAME_ALREADY_EXISTS':
+                    res.status(409).json({ error: error.message });
+                default:
+                    res.status(400).json({ error: error.message });
+            }
+
         }
     }
 }
