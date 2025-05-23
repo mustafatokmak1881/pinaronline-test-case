@@ -19,12 +19,12 @@ class UsersBanksRepository {
         return result.rows[0];
     }
 
-    async updateUp(userId, amount, symbol) {
+    async updateUp(userId, amount) {
         const result = await this.pool.query(`UPDATE ${this.tableName} SET balance = balance + $1 WHERE user_id = $2 RETURNING *`, [amount, userId]);
         return result.rows[0];
     }
 
-    async updateDown(userId, amount, symbol) {
+    async updateDown(userId, amount) {
         const result = await this.pool.query(`UPDATE ${this.tableName} SET balance = balance - $1 WHERE user_id = $2 RETURNING *`, [amount, userId]);
         return result.rows[0];
     }

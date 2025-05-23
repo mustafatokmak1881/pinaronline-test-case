@@ -27,8 +27,8 @@ class UsersBankController {
                 data: error.message
             });
         }
-
     }
+
 }
 
 module.exports = new UsersBankController();
