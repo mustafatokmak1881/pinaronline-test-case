@@ -72,7 +72,6 @@ class UserController {
         }
 
         try {
-
             const result = await userService.profilePage(token);
             res.status(200).json({
                 status: "success",
@@ -83,8 +82,7 @@ class UserController {
         catch (error) {
             res.status(409).json({
                 status: "fail",
-                message: "Profile Page can not opened",
-                data: result
+                message: error.message,
             });
         }
     }

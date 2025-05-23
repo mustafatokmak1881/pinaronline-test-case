@@ -18,6 +18,6 @@ const isAuthenticated = require('../middlewares/auth.middlware');
  */
 
 router.get('/', isAuthenticated, rewardsController.rewards);
-
+router.get('/:id', isAuthenticated, rewardsController.rewardsById)
 
 module.exports = router;
