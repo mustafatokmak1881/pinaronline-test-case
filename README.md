@@ -86,5 +86,5 @@ diff
 📬 İletişim
 Mustafa Tokmak
 GitHub
-📧 mustafatokmak1881@gmail.com
+📧 mtkmk1881@gmail.com
 
