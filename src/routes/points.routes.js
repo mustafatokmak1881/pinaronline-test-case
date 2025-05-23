@@ -16,6 +16,6 @@ const isAuthenticated = require('../middlewares/auth.middlware');
  */
 
 router.post('/earn', isAuthenticated, pointsController.earn);
-
+router.get('/history', isAuthenticated, pointsController.history)
 
 module.exports = router;

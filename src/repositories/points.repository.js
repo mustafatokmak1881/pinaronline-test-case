@@ -19,6 +19,11 @@ class PointsRepository {
         return result.rows[0];
     }
 
+    async findByUserId(userId){
+        const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE user_id = $1 order by id DESC`, [userId]);
+        return result.rows;
+    }
+
 }
 
 module.exports = new PointsRepository();
