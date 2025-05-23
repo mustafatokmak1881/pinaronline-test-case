@@ -21,7 +21,7 @@ class PointsRepository {
 
     async findByUserId(userId){
         const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE user_id = $1 order by id DESC`, [userId]);
-        return result.rows;
+        return result.rows[0];
     }
 
 }

@@ -1,15 +1,26 @@
 const jwt = require('jsonwebtoken');
 
+// Repositories
 const pointsRepository = require('../repositories/points.repository');
+const usersBankRepository = require('../repositories/usersBank.repository');
 
 class PointsService {
     async earn(userId, type, amount, description) {
+        const existingUsersBank = await usersBankRepository.findByUserId(userId);
+
+        if (!existingUsersBank) {
+            return await usersBankRepository.create(userId, amount);
+        }
+
+        const updateResult = await usersBankRepository.updateUp(userId, amount);
+        console.log({ updateResult });
+
         return await pointsRepository.create(userId, type, amount, description);
     }
 
     async history(token) {
         const user = jwt.decode(token);
-        const result = await pointsRepository.findByUserId(user.userId)
+        const result = await pointsRepository.findByUserId(user.userId);
 
         return result;
     }
