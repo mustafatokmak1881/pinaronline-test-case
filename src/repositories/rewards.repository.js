@@ -7,7 +7,7 @@ class RewardsRepository {
     }
 
     async findAll() {
-        const result = await this.pool.query(`SELECT * FROM ${this.tableName}`);
+        const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE is_active = true order by id DESC`);
         return result.rows;
     }
 

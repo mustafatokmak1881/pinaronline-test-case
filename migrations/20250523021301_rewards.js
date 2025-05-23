@@ -7,8 +7,8 @@ exports.up = function (knex) {
         table.specificType('id', 'serial primary key');
         table.string('name').notNullable();
         table.string('description');
-        table.integer('pointsCost').notNullable();
-        table.boolean('isActive').notNullable().defaultTo(true);
+        table.integer('points_cost').notNullable();
+        table.boolean('is_active').notNullable().defaultTo(true);
         table.integer('stock').notNullable().defaultTo(0);
         table.timestamp('createdAt').defaultTo(knex.fn.now());
         table.timestamp('updatedAt').defaultTo(knex.fn.now());
@@ -18,22 +18,22 @@ exports.up = function (knex) {
                 {
                     name: 'Mini Ramazan Paketi',
                     description: 'Ramazanın bu güzel günlerinde ...',
-                    pointsCost: 300,
-                    isActive: true,
+                    points_cost: 300,
+                    is_active: true,
                     stock: 1000
                 },
                 {
                     name: 'Yılbaşı Hediye Paketi ',
                     description: 'Efsane cumaya yaklaşılırken ...',
-                    pointsCost: 5000,
-                    isActive: true,
+                    points_cost: 5000,
+                    is_active: true,
                     stock: 1000
                 },
                 {
                     name: '19 Mayıs Gençlik Paketi',
                     description: 'Gençlerimize en özel günlerinde...',
-                    pointsCost: 200,
-                    isActive: false,
+                    points_cost: 200,
+                    is_active: false,
                     stock: 500
                 }
             ]);
