@@ -31,7 +31,7 @@ class UsersBankService {
         }
 
         if (points < points_cost) {
-            throw new Error('POINTS_IS_NOT ENOUGH_FOR_THIS_REWARD');
+            throw new Error('POINTS_IS_NOT_ENOUGH_FOR_THIS_REWARD');
         }
 
         if (stock < 1) { // Checking stock
