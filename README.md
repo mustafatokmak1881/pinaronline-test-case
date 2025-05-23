@@ -1,50 +1,90 @@
-# pinaronline-test-case
+markdown
+# PinarOnline Ödül Yönetim Sistemi API
 
-# Postman Collection - (At root folder and ignored for git and docker)
-odul-yonetimi.postman_collection.json
+![Node.js](https://img.shields.io/badge/Node.js-18-green)
+![Express](https://img.shields.io/badge/Express-4.18-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-orange)
+![Docker](https://img.shields.io/badge/Docker-24.0-yellow)
 
-# Notes && Feedbacks
-- Swaggger ve test kısmını sadece /user endpoint'i için yaptım, yetiştiremedim.
-- userId yerine postgresql'da user_id kullandım. Garip bir şekilde userId kabul etmiyor. Daha önce hep Mysql kullandım. PostgreSQL'de yeni sayılırım. Mysql'de böyle bir durum yoktu. Yani: userId => user_id, isActive => is_active
-- Verilen görevde string olarak belirtildiği için user_id vb. string bıraktım eğer başka sebep yoksa integer yapmak yerinde olur.
-- Görevde verilmediği için pagination yapmadım. Kısıtlı zamanım vardı normal şartlarda kesinlikle pagination şart.
-- Genel olarak gerekli yerlerde DESC sıralaması yaptım taskta yok ama inisiyatif aldım
-- Zamanım pek yoktu bu yüzden validationlara test ve swagger tarafına pek özenemedim.
-- /api/rewards/claim kısmında verilen "örnek puan bu ödül için yeterli mi değil mi" şeklinde algıladım ve bu şekilde yaptım. Burada yanlış anlaşılma olabilir.
-- Docker image küçültme işine vakit ayıramadım. Daha fazla vaktim olsaydı buna çok dikkat ederdim.
-- Bazı yerlerde tekrarlanan kodlar var farkındayım; ama daha fazla vaktim olsaydı buna çok dikkat ederdim.
-- Genel olarak yorumlara önem vermeye çalıştım ama zaman kısıtım nedniyle yeterince özenemedim
+## 📌 Proje Özeti
 
-# How to Run (Don't forget to change ip address as localhost if you run on local computer)
+Kullanıcı ve ödül yönetimi için geliştirilmiş RESTful API servisi. Docker container'ları ile kolay dağıtım ve PostgreSQL veritabanı entegrasyonu.
 
-git clone https://github.com/mustafatokmak1881/pinaronline-test-case.git && cd pinaronline-test-case && docker-compose up -d
+## 🛠 Teknik Detaylar
 
-# How to test
-npm test
+| Bileşen         | Teknoloji       | Versiyon  |
+|-----------------|----------------|----------|
+| Backend         | Node.js        | 18.x     |
+| Framework       | Express.js     | 4.18.x   |
+| Veritabanı      | PostgreSQL     | 15.x     |
+| ORM             | Sequelize      | 6.x      |
+| API Dokümantasyon | Swagger UI    | 4.x      |
 
-# Env File
+## 🚀 Kurulum
 
-# Express Port
+### Docker ile Çalıştırma
+
+```bash
+git clone https://github.com/mustafatokmak1881/pinaronline-test-case.git
+cd pinaronline-test-case
+docker-compose up -d
+```
+
+#Ortam Değişkenleri (.env)
+```bash
+
 PORT=3000
-
-# Postgresql
 POSTGRES_HOST=postgres
 POSTGRES_USER=admin
 POSTGRES_PASS=admin123
 POSTGRES_DB=mydb
 POSTGRES_PORT=5432
-
-# JWT
 SECRET_KEY=secureSecretKeyWillHere123
+```
+
+🌐 Servis Erişim Bilgileri
+Servis	URL	Kullanıcı Bilgileri
+```bash
+API	http://localhost:3000	-
+Swagger UI	http://localhost:3000/api-docs	-
+PGAdmin	http://localhost:5050	admin@example.com / 123@example.com123
+```
 
 
-# URL
+🔍 Dokümantasyon ve Test Durumu
 
-# PGADMIN 
-http://localhost:5050/
+Swagger UI
+✅ /users endpointleri dokümante edilmiştir ama zamanım tamamına yetmedi
 
-# PGADMIN_DEFAULT_EMAIL: admin@example.com
-# PGADMIN_DEFAULT_PASSWORD: 123@example.com123
+Test Kapsamı
+```bash
+npm test
+```
+✅ /users modülü için unit testler tamamlandı ama zamanım tamamına yetmedi
 
-# SwaggerURL
-http://localhost:3000/api-docs
+
+Postman Koleksiyonu
+✅ Tüm endpointleri kapsayan eksiksiz koleksiyon:
+
+odul-yonetimi.postman_collection.json
+
+
+📝 Geliştirici Notları
+diff
++ Başarılı Implementasyonlar:
+- PostgreSQL naming convention (user_id)
+- JWT tabanlı auth sistemi
+- Ödül talep mekanizması
+
+! Geliştirilecek Alanlar:
+- Pagination desteği
+- Validation kurallarının genişletilmesi
+- Docker image optimizasyonu
+- Kod tekrarlarının refaktörü
+
+  
+📬 İletişim
+Mustafa Tokmak
+GitHub
+📧 mustafatokmak1881@gmail.com
+
