@@ -42,12 +42,16 @@ class PointsService {
         const rewardDetail = await rewardsRepository.findById(rewardId);
         const { id, points_cost, is_active, stock } = rewardDetail[0];
 
+        if (!id) {
+            throw new Error('REWARD_IS_NOT_FOUND')
+        }
+
         if (!is_active) {
             throw new Error('REWARD_IS_NOT_ACTIVE')
         }
 
         if (userPointBalance < points_cost) {
-            throw new Error('INSUFFICIENT_POINT');
+            throw new Error('INSUFFICIENT_POINTS');
         }
 
         if (stock < 1) { // Checking stock
@@ -55,9 +59,9 @@ class PointsService {
         }
 
         const usersBankResult = await usersBankRepository.updateDown(user.userId, points_cost); // balance is decreasing
-        const updateStock = await rewardsRepository.updateStock(user.userId); //decsreasing stock
+        const stockResult = await rewardsRepository.updateStock(user.userId); //decsreasing stock
 
-        return { userBank: existingUsersBank, rewardDetail, userPointBalance, points_cost, usersBankResult, updateStock };
+        return { usersBankResult, stockResult }
     }
 }
 

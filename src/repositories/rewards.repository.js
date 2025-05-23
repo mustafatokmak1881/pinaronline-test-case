@@ -16,7 +16,12 @@ class RewardsRepository {
         return result.rows;
     }
 
-      async updateStock(redeemId) {
+    async findByIdAsArray(id) {
+        const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE id = $1`, [id]);
+        return result.rows[0];
+    }
+
+    async updateStock(redeemId) {
         const result = await this.pool.query(`UPDATE ${this.tableName} SET stock = stock - 1 WHERE id = $1 RETURNING *`, [redeemId]);
         return result.rows[0];
     }
