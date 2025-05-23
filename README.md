@@ -16,7 +16,11 @@ odul-yonetimi.postman_collection.json
 - Genel olarak yorumlara önem vermeye çalıştım ama zaman kısıtım nedniyle yeterince özenemedim
 
 # How to Run (Don't forget to change ip address as localhost if you run on local computer)
+
+git clone https://github.com/mustafatokmak1881/pinaronline-test-case.git
+cd pinaronline-test-case
 docker-compose up -d
+
 # How to test
 npm test
 
