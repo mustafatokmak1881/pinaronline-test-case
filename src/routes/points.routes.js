@@ -13,7 +13,7 @@ const isAuthenticated = require('../middlewares/auth.middlware');
 /**
  * @swagger
  * tags:
- *   name: User Points
+ *   name: Points
  *   description: Kullanıcı puan işlemleri
  */
 

@@ -81,7 +81,11 @@ class UserController {
             });
         }
         catch (error) {
-
+            res.status(409).json({
+                status: "fail",
+                message: "Profile Page can not opened",
+                data: result
+            });
         }
     }
 }
