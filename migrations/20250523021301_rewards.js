@@ -24,7 +24,7 @@ exports.up = function (knex) {
                 },
                 {
                     name: 'Yılbaşı Hediye Paketi ',
-                    description: 'Efsane cumaya yaklaşılırken ...',
+                    description: "2026'a yaklaşılırken ...",
                     points_cost: 5000,
                     is_active: true,
                     stock: 1000
