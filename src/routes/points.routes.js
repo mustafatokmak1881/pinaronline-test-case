@@ -3,10 +3,12 @@ const { Router } = require('express');
 
 // Variables
 const router = Router();
-const pointsController = require('../controllers/points.controller')
+const pointsController = require('../controllers/points.controller');
+const usersBankController = require('../controllers/usersBank.controller');
 
 // Middleware
 const isAuthenticated = require('../middlewares/auth.middlware');
+
 
 /**
  * @swagger
@@ -16,6 +18,7 @@ const isAuthenticated = require('../middlewares/auth.middlware');
  */
 
 router.post('/earn', isAuthenticated, pointsController.earn);
-router.get('/history', isAuthenticated, pointsController.history)
+router.get('/history', isAuthenticated, pointsController.history);
+router.get('/balance', isAuthenticated, usersBankController.balance)
 
 module.exports = router;

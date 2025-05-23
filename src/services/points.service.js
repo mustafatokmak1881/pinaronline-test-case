@@ -8,12 +8,13 @@ class PointsService {
     async earn(userId, type, amount, description) {
         const existingUsersBank = await usersBankRepository.findByUserId(userId);
 
+        // Users balance is creating for first time
         if (!existingUsersBank) {
             return await usersBankRepository.create(userId, amount);
         }
 
-        const updateResult = await usersBankRepository.updateUp(userId, amount);
-        console.log({ updateResult });
+        // Users balance updating as: balance = balance + amount
+        await usersBankRepository.updateUp(userId, amount);
 
         return await pointsRepository.create(userId, type, amount, description);
     }

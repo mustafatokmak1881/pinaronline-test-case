@@ -7,7 +7,7 @@ class UsersBanksRepository {
     }
 
     async findByUserId(userId) {
-        const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE user_id = $1 order by id DESC`, [userId]);
+        const result = await this.pool.query(`SELECT user_id, balance FROM ${this.tableName} WHERE user_id = $1`, [userId]);
         return result.rows[0];
     }
 

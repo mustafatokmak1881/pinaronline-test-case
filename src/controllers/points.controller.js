@@ -54,7 +54,7 @@ class PointsController {
         if (!token) {
             return res.status(401).json({
                 status: "fail",
-                message: "Token not found"
+                message: "Token is not found"
             });
         }
 
